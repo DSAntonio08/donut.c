@@ -29,6 +29,7 @@
 *.dylib
 
 # Executables
+circle
 *.exe
 *.out
 *.app
