@@ -15,7 +15,8 @@ int main(void)
     int coordinateX = 20;
     int coordinateY = 10;
 
-    float tilt = 0;
+    float tilt = 0; // X-axis rotation
+    float spin = 0; // Y-axis rotation
     int cameraDistance = 30;
 
     char canvas[areaY][areaX];
@@ -42,17 +43,22 @@ int main(void)
             /*newX = oldX * cos(angle) - oldY * sin(angle);
             newY = oldX * sin(angle) + oldY * cos(angle);*/
 
-            // from here
-            float rotatedX = X;
-            float rotatedY = Y * cos(tilt) - Z * sin(tilt);
-            float rotatedZ = Y * sin(tilt) + Z * cos(tilt);
+            float rotatedX_X = X;
+            float rotatedX_Y = Y * cos(tilt) - Z * sin(tilt);
+            float rotatedX_Z = Y * sin(tilt) + Z * cos(tilt);
 
-            float multiplier = cameraDistance / (cameraDistance + rotatedZ);
+            float rotatedY_Y = Y;
+            float rotatedY_X = X * cos(tilt) - Z * sin(tilt);
+            float rotatedY_Z = X * sin(tilt) + Z * cos(tilt);
 
-            int x = coordinateX + (int)(rotatedX * multiplier);
-            int y = coordinateY + (int)(rotatedY * multiplier);
-            // to here
-            // I don't understand SHIT
+            float finalX = rotatedX_X * cos(spin) - rotatedX_Z * sin(spin);
+            float finalY = rotatedX_Y;
+            float finalZ = rotatedX_X * sin(spin) + rotatedX_Z * cos(spin);
+
+            float multiplier = cameraDistance / (cameraDistance + finalZ);
+
+            int x = coordinateX + (int)(finalX * multiplier);
+            int y = coordinateY + (int)(finalY * multiplier);
 
             if (x >= 0 && x < areaX &&
                 y >= 0 && y < areaY)
@@ -78,6 +84,7 @@ int main(void)
         usleep(10000);
 
         // increase tilt after printing
-        tilt += 0.2;
+        tilt += 0.04;
+        spin += 0.02;
     }
 }
