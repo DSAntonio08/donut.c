@@ -30,6 +30,7 @@
 
 # Executables
 circle
+donut
 *.exe
 *.out
 *.app
@@ -54,3 +55,6 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# formatting
+.clang-format
